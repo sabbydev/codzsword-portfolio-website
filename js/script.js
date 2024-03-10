@@ -26,14 +26,24 @@ resumeHeading.onclick = (event) => {
 };
 
 // Portfolio Filter
-
+// Fix: Make sure that a button has been pressed before filtering.
+// I found a bug when clicking on the filter buttons container. For this I have developed the following solution:
 const filterContainer = document.querySelector(".portfolio-filter-nav");
 const galleryItems = document.querySelectorAll(".portfolio-item");
 
 filterContainer.addEventListener("click", (e) => {
   e.preventDefault();
+
+  // Check if a button has been clicked:
+  const clickedButton = e.target.closest("button");
+  if (!clickedButton) {
+    return; // Exit if a button has not been pressed.
+  }
+
   filterContainer.querySelector(".active").classList.remove("active");
-  e.target.classList.add("active");
+  // Add "active" class to the button clicked.
+  clickedButton.classList.add("active");
+
   const filterValue = e.target.getAttribute("data-id");
   galleryItems.forEach((item) => {
     if (item.classList.contains(filterValue) || filterValue === "all") {
